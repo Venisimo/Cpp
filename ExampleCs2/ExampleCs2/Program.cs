@@ -2,153 +2,165 @@
 
 namespace ExampleCs2
 {
-    abstract class BasedDuck
+    class BasedDuck
     {
-        public abstract void Swim ();
+        protected void Swim()
+        {
+            Console.WriteLine("Плывет");
+        }
         protected IFly flying { get; set; }
-        public IFly Flying { 
-            get {
+        public IFly Flying
+        {
+            get
+            {
                 return flying;
             }
-            set {
+            set
+            {
                 flying = value;
-            } 
+            }
         }
 
         protected IEat eating { get; set; }
-        public IEat Eating {
-            get {
+        public IEat Eating
+        {
+            get
+            {
                 return eating;
             }
-            set {
+            set
+            {
                 eating = value;
             }
         }
         protected IKrya kryaing { get; set; }
-        public IKrya Kryaing {
-            get {
+        public IKrya Kryaing
+        {
+            get
+            {
                 return kryaing;
             }
-            set {
+            set
+            {
                 kryaing = value;
             }
         }
+        public void AlertSwim()
+        {
+            Swim();
+        }
+        public void AlertFly()
+        {
+            flying.Fly();
+        }
+        public void AlertEat()
+        {
+            eating.Eat();
+        }
+        public void AlertKrya()
+        {
+            kryaing.Krya();
+        }
+        class WildDuck : BasedDuck
+        {
+            public WildDuck()
+            {
+                flying = new FastFly();
+                eating = new WildEat();
+                kryaing = new WildKrya();
+            }
+        }
 
-        public void Alert()
+        class HomeDuck : BasedDuck
         {
-            Flying.Fly();
-            Eating.Eat();
-            Kryaing.Krya();
+            public HomeDuck()
+            {
+                eating = new HomeEat();
+                kryaing = new HomeKrya();
+            }
         }
-    }
-    class WildDuck : BasedDuck
-    {
-        public override void Swim() {
-            Console.WriteLine("Быстро плывет");
-        }
-        public WildDuck()
-        {
-            flying = new FastFly();
-            eating = new WildEat();
-            kryaing = new WildKrya();
-        }
-    }
 
-    class HomeDuck : BasedDuck
-    {
-        public override void Swim()
+        class LatexDuck : BasedDuck
         {
-            Console.WriteLine("Медлено плывет");
+            public LatexDuck()
+            {
+            }
         }
-        public HomeDuck()
-        {
-            flying = new SlowFly();
-            eating = new HomeEat();
-            kryaing = new HomeKrya();
-        }
-    }
 
-    class LatexDuck : BasedDuck
-    {
-        public override void Swim()
+        public interface IFly
         {
-            Console.WriteLine("Плавает на месте");
+            void Fly();
         }
-        public LatexDuck()
+        public class FastFly : IFly
         {
+            public void Fly()
+            {
+                Console.WriteLine("Быстро полетела");
+            }
         }
-    }
+        public class SlowFly : IFly
+        {
+            public void Fly()
+            {
+                Console.WriteLine("Медлено полетела");
+            }
+        }
 
-    public interface IFly
-    {
-        void Fly();
-    }
-    public class FastFly : IFly
-    { 
-        public void Fly()
+        public interface IEat
         {
-            Console.WriteLine("Быстро полетела");
+            void Eat();
         }
-    }
-    public class SlowFly : IFly
-    {
-        public void Fly()
+        public class WildEat : IEat
         {
-            Console.WriteLine("Медлено полетела");
+            public void Eat()
+            {
+                Console.WriteLine("Поела добычу");
+            }
         }
-    }
+        public class HomeEat : IEat
+        {
+            public void Eat()
+            {
+                Console.WriteLine("Дали поесть");
+            }
+        }
+        public interface IKrya
+        {
+            void Krya();
+        }
+        public class WildKrya : IKrya
+        {
+            public void Krya()
+            {
+                Console.WriteLine("Дико крякнула");
+            }
+        }
+        public class HomeKrya : IKrya
+        {
+            public void Krya()
+            {
+                Console.WriteLine("Крякнула спокойно");
+            }
+        }
 
-    public interface IEat
-    {
-        void Eat();
-    }
-    public class WildEat : IEat
-    {
-        public void Eat()
+        class Program
         {
-            Console.WriteLine("Поела добычу");
-        }
-    }
-    public class HomeEat : IEat
-    {
-        public void Eat()
-        {
-            Console.WriteLine("Дали поесть");
-        }
-    }
-    public interface IKrya
-    {
-        void Krya();
-    }
-    public class WildKrya : IKrya
-    {
-        public void Krya()
-        {
-            Console.WriteLine("Дико крякнула");
-        }
-    }
-    public class HomeKrya : IKrya
-    {
-        public void Krya()
-        {
-            Console.WriteLine("Крякнула спокойно");
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            WildDuck WDuck = new WildDuck();
-            WDuck.Swim();
-            WDuck.Alert();
-            HomeDuck HDuck = new HomeDuck();
-            HDuck.Swim();
-            HDuck.Alert();
-            LatexDuck LDuck = new LatexDuck();
-            LDuck.Swim();
+            static void Main(string[] args)
+            {
+                WildDuck WDuck = new WildDuck();
+                WDuck.AlertSwim();
+                WDuck.AlertFly();
+                WDuck.AlertEat();
+                WDuck.AlertKrya();
+                HomeDuck HDuck = new HomeDuck();
+                HDuck.AlertSwim();
+                HDuck.AlertEat();
+                HDuck.AlertKrya();
+                LatexDuck LDuck = new LatexDuck();
+                LDuck.AlertSwim();
 
 
+            }
         }
     }
 }
